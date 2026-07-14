@@ -4,7 +4,93 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#344a35">
-  <meta name="description" content="Lista de desejos de Michèlé Johann — presentes escolhidos com carinho.">
-  <title>O Jardim de Desejos de Michèlé</title>
+  <meta name="description" content="Lista de desejos de Michèlé Joohann — presentes escolhidos com carinho.">
+  <title>O Jardim de Desejos de Michèlé Joohann</title>
   <style>
-    :root{--cream:#f7f0e3;--paper:#fffaf1;--green:#344a35;--green2:#526a50;--wine:#743b48;--gold:#b58b4b;--ink:#2e2925;--muted:#756d65;--line
+    :root{--cream:#f7f0e3;--paper:#fffaf1;--green:#344a35;--green2:#526a50;--wine:#743b48;--gold:#b58b4b;--ink:#2e2925;--muted:#756d65;--line:#dccfbb}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.6}
+    header{padding:72px 20px 56px;text-align:center;background:linear-gradient(rgba(52,74,53,.92),rgba(52,74,53,.92)),radial-gradient(circle at top,#526a50,#344a35);color:#fffaf1}
+    .eyebrow{letter-spacing:.22em;text-transform:uppercase;font:600 .76rem Arial,sans-serif;color:#e6cf9b}
+    h1{max-width:850px;margin:12px auto 14px;font-size:clamp(2.2rem,7vw,4.7rem);line-height:1.05;font-weight:500}
+    header p{max-width:720px;margin:auto;font-size:1.05rem;color:#f3eadb}
+    main{width:min(1120px,92%);margin:-26px auto 60px}
+    .intro{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 14px 35px rgba(46,41,37,.09);text-align:center}
+    .intro p{max-width:820px;margin:0 auto;color:var(--muted)}
+    .toolbar{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:28px 0}
+    .chip{border:1px solid var(--green2);border-radius:999px;padding:9px 16px;background:transparent;color:var(--green);font:600 .86rem Arial,sans-serif}
+    h2{text-align:center;color:var(--green);font-size:2rem;margin:36px 0 20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 22px rgba(46,41,37,.07);display:flex;flex-direction:column}
+    .placeholder{aspect-ratio:4/5;display:grid;place-items:center;background:linear-gradient(135deg,#e9dfce,#d8c7ac);color:var(--green);font-size:3rem}
+    .content{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .category{font:700 .72rem Arial,sans-serif;letter-spacing:.13em;text-transform:uppercase;color:var(--wine)}
+    .card h3{margin:0;color:var(--green);font-size:1.25rem;line-height:1.25}
+    .card p{margin:0;color:var(--muted);font-family:Arial,sans-serif;font-size:.93rem}
+    .meta{margin-top:auto;padding-top:8px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font:700 .88rem Arial,sans-serif}
+    .price{color:var(--wine)}
+    .status{color:var(--green2)}
+    .button{display:block;margin-top:4px;text-align:center;text-decoration:none;background:var(--green);color:white;border-radius:10px;padding:11px 14px;font:700 .9rem Arial,sans-serif}
+    .button[aria-disabled="true"]{background:#938b81;pointer-events:none}
+    .note{margin:32px auto 0;padding:18px 22px;border-left:4px solid var(--gold);background:#fff7e8;color:var(--muted);font-family:Arial,sans-serif;border-radius:8px}
+    footer{text-align:center;padding:28px 20px 45px;color:var(--muted);font-family:Arial,sans-serif;font-size:.85rem}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Lista de presentes & desejos</div>
+    <h1>O Jardim de Desejos de Michèlé Joohann</h1>
+    <p>Uma coleção de peças e pequenos encantos escolhidos para fazer parte da minha história.</p>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p>“Cada peça desta coleção foi escolhida por representar um pouco da minha personalidade: o encanto da natureza, a elegância atemporal, a fantasia das histórias que amo e a beleza das pequenas coisas. Para me presentear, você encontrará aqui itens que realmente farão parte da minha vida.”</p>
+    </section>
+
+    <nav class="toolbar" aria-label="Categorias">
+      <span class="chip">Todos</span><span class="chip">Vestidos</span><span class="chip">Blusas</span><span class="chip">Macacões</span><span class="chip">Acessórios</span>
+    </nav>
+
+    <h2>Primeiros desejos</h2>
+    <section class="grid" aria-label="Itens da lista">
+      <article class="card">
+        <div class="placeholder" aria-label="Foto a adicionar">🌿</div>
+        <div class="content">
+          <span class="category">Vestidos</span>
+          <h3>Vestido Super Midi Branco</h3>
+          <p>Vestido romântico, delicado e atemporal, escolhido para ocasiões especiais.</p>
+          <div class="meta"><span class="price">Valor em atualização</span><span class="status">Muito desejado</span></div>
+          <a class="button" href="#" aria-disabled="true">Link em atualização</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="placeholder" aria-label="Foto a adicionar">🤍</div>
+        <div class="content">
+          <span class="category">Vestidos</span>
+          <h3>Vestido Midi Rey Off White</h3>
+          <p>Modelo vintage e feminino, com uma silhueta delicada e elegante.</p>
+          <div class="meta"><span class="price">Valor em atualização</span><span class="status">Muito desejado</span></div>
+          <a class="button" href="#" aria-disabled="true">Link em atualização</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="placeholder" aria-label="Foto a adicionar">💚</div>
+        <div class="content">
+          <span class="category">Vestidos</span>
+          <h3>Vestido Midi Evening Verde</h3>
+          <p>Vestido midi em verde profundo, ideal para eventos, jantares e passeios.</p>
+          <div class="meta"><span class="price">Valor em atualização</span><span class="status">Muito desejado</span></div>
+          <a class="button" href="#" aria-disabled="true">Link em atualização</a>
+        </div>
+      </article>
+    </section>
+
+    <div class="note"><strong>Em construção:</strong> os nomes completos, fotos, preços atuais e links diretos da Toda Frida serão acrescentados e revisados item por item.</div>
+  </main>
+
+  <footer>Feito com carinho para Michèlé Joohann · 2026</footer>
+</body>
+</html>
