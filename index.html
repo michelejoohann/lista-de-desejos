@@ -9,16 +9,21 @@
   <meta property="og:description" content="Presentes, sonhos e pequenas histórias escolhidas com carinho.">
   <meta property="og:type" content="website">
   <title>O Jardim de Desejos de Michèlé Joohann</title>
-  <link rel="stylesheet" href="styles.css?v=1.1.0">
+  <link rel="stylesheet" href="styles.css?v=1.1.1">
 </head>
 <body>
   <header class="hero">
     <div class="wrap">
-      <div class="eyebrow">Lista pública de presentes</div>
+      <div class="eyebrow">Lista pública de presentes · versão 1.1</div>
       <h1>O Jardim de Desejos<br>de Michèlé Joohann</h1>
       <p>Cada presente desta coleção representa um sonho, um projeto, uma memória futura ou uma etapa da minha jornada.</p>
       <div class="quote">“Se você desejar me presentear, encontrará aqui itens escolhidos com carinho e que realmente farão parte da minha vida.”</div>
-      <div class="stats"><span class="stat"><span id="totalCount">0</span> desejos no jardim</span><span class="stat"><span id="visibleCount">0</span> exibidos agora</span></div>
+      <div class="stats">
+        <span class="stat"><span id="totalCount">0</span> desejos</span>
+        <span class="stat"><span id="visibleCount">0</span> exibidos</span>
+        <span class="stat"><span id="realizedCount">0</span> realizados</span>
+      </div>
+      <div class="progress" aria-label="Progresso dos desejos realizados"><span id="progressBar"></span></div>
     </div>
   </header>
 
@@ -45,17 +50,26 @@
           <button class="filter" data-filter="moda">Guarda-Roupa</button>
           <button class="filter" data-filter="joias">Tesouros</button>
           <button class="filter" data-filter="casa">Lar</button>
+          <button class="filter" data-filter="favorites">Favoritos</button>
+          <button class="filter" data-filter="realized">Realizados</button>
         </div>
       </div>
       <button class="share" id="shareBtn">Compartilhar esta lista</button>
     </div>
 
+    <p class="local-note">Favoritos, reservas e itens realizados ficam salvos somente neste navegador.</p>
     <section class="grid" id="giftGrid" aria-live="polite"></section>
     <div class="empty" id="emptyState">Nenhum desejo encontrado com esses filtros.</div>
   </main>
 
+  <dialog id="imageModal" class="image-modal">
+    <button id="closeModal" class="modal-close" aria-label="Fechar">×</button>
+    <img id="modalImage" alt="">
+    <p id="modalCaption"></p>
+  </dialog>
+
   <footer>Feito com carinho para o Jardim de Desejos de Michèlé Joohann · valores e disponibilidade podem mudar sem aviso prévio.</footer>
-  <script src="products.js?v=1.1.0"></script>
-  <script src="app.js?v=1.1.0"></script>
+  <script src="products.js?v=1.1.1"></script>
+  <script src="app.js?v=1.1.1"></script>
 </body>
 </html>
