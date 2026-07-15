@@ -1,29 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { signInAnonymously } from 'firebase/auth';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { auth, db } from './firebase/config.js';
-
-const ADMIN_UID = '7G4v3hEMtaVzI8MUDsXjVCNXGJz1';
+import ProductCard from './components/ProductCard.jsx';
+import { legacyProducts } from './data/legacyProducts.js';
 
 export default function App() {
-  const [products, setProducts] = useState([]);
+  const [firestoreProducts, setFirestoreProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('all');
+  const [sort, setSort] = useState('default');
 
   useEffect(() => {
-    signInAnonymously(auth).catch(() => {
-      setError('Não foi possível iniciar a sessão do visitante.');
-    });
+    signInAnonymously(auth).catch(() => setError('Não foi possível iniciar a sessão do visitante.'));
 
     const productsQuery = query(collection(db, 'products'), orderBy('name'));
     const unsubscribe = onSnapshot(
       productsQuery,
       snapshot => {
-        setProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setFirestoreProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         setLoading(false);
       },
       () => {
-        setError('O catálogo ainda não pôde ser carregado do Firebase.');
+        setError('O Firestore ainda não pôde ser consultado. O catálogo de segurança foi carregado.');
         setLoading(false);
       }
     );
@@ -31,34 +32,69 @@ export default function App() {
     return unsubscribe;
   }, []);
 
+  const sourceProducts = firestoreProducts.length ? firestoreProducts : legacyProducts;
+  const usingFallback = !loading && !firestoreProducts.length;
+
+  const visibleProducts = useMemo(() => {
+    const term = search.trim().toLocaleLowerCase('pt-BR');
+    const filtered = sourceProducts.filter(product => {
+      if (product.published === false) return false;
+      const matchesCategory = category === 'all' || product.category === category;
+      const searchable = `${product.name} ${product.collection} ${product.description}`.toLocaleLowerCase('pt-BR');
+      return matchesCategory && searchable.includes(term);
+    });
+
+    if (sort === 'priceAsc') return [...filtered].sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+    if (sort === 'priceDesc') return [...filtered].sort((a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity));
+    if (sort === 'nameAsc') return [...filtered].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+    return filtered;
+  }, [sourceProducts, search, category, sort]);
+
   return (
     <div className="app-shell">
       <header className="hero">
-        <p className="eyebrow">Versão 2.0 em construção</p>
+        <p className="eyebrow">Jardim de Desejos · versão 2.0</p>
         <h1>O Jardim de Desejos de Michèlé Joohann</h1>
-        <p>Uma aplicação conectada ao Firebase, preparada para catálogo, reservas e painel administrativo.</p>
+        <p>Sonhos cultivados com carinho, agora em uma experiência dinâmica conectada ao Firebase.</p>
+        <div className="hero-stats">
+          <span>{sourceProducts.length} desejos no jardim</span>
+          <span>{visibleProducts.length} exibidos</span>
+          <span>{firestoreProducts.length ? 'Sincronizado com Firestore' : 'Catálogo de segurança ativo'}</span>
+        </div>
       </header>
 
       <main className="content">
-        <section className="status-card">
-          <h2>Fundação concluída</h2>
-          <p>React, Vite, Firebase Authentication, Firestore e Storage já estão conectados no novo projeto.</p>
-          <dl>
-            <div><dt>Produtos no Firestore</dt><dd>{loading ? 'Carregando…' : products.length}</dd></div>
-            <div><dt>Administrador configurado</dt><dd>{auth.currentUser?.uid === ADMIN_UID ? 'Sim' : 'Acesso protegido'}</dd></div>
-          </dl>
-          {error && <p className="error" role="alert">{error}</p>}
+        <section className="catalog-toolbar" aria-label="Controles do catálogo">
+          <input
+            type="search"
+            value={search}
+            onChange={event => setSearch(event.target.value)}
+            placeholder="Buscar por nome, coleção ou descrição…"
+            aria-label="Buscar presentes"
+          />
+          <select value={category} onChange={event => setCategory(event.target.value)} aria-label="Filtrar por categoria">
+            <option value="all">Todas as categorias</option>
+            <option value="moda">Guarda-Roupa</option>
+            <option value="joias">Tesouros</option>
+            <option value="casa">Lar</option>
+          </select>
+          <select value={sort} onChange={event => setSort(event.target.value)} aria-label="Ordenar presentes">
+            <option value="default">Ordem original</option>
+            <option value="priceAsc">Menor valor ao maior</option>
+            <option value="priceDesc">Maior valor ao menor</option>
+            <option value="nameAsc">Nome de A a Z</option>
+          </select>
         </section>
 
-        <section>
-          <h2>Próximas entregas</h2>
-          <div className="roadmap">
-            <article><strong>1</strong><span>Migrar os produtos atuais para o Firestore</span></article>
-            <article><strong>2</strong><span>Criar catálogo público em tempo real</span></article>
-            <article><strong>3</strong><span>Implementar reservas compartilhadas</span></article>
-            <article><strong>4</strong><span>Criar painel administrativo protegido</span></article>
-          </div>
+        {loading && <p className="notice">Conectando ao Jardim…</p>}
+        {usingFallback && <p className="notice warning">O banco ainda está vazio. Exibindo os produtos já cadastrados enquanto preparamos a migração.</p>}
+        {error && <p className="notice error" role="alert">{error}</p>}
+
+        <section className="product-grid" aria-live="polite">
+          {visibleProducts.map(product => <ProductCard key={product.id} product={product} />)}
         </section>
+
+        {!loading && visibleProducts.length === 0 && <p className="empty-state">Nenhum desejo encontrado com esses filtros.</p>}
       </main>
     </div>
   );
