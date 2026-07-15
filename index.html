@@ -9,7 +9,7 @@
   <meta property="og:description" content="Presentes, sonhos e pequenas histórias escolhidas com carinho.">
   <meta property="og:type" content="website">
   <title>O Jardim de Desejos de Michèlé Joohann</title>
-  <link rel="stylesheet" href="styles.css?v=1.0.0">
+  <link rel="stylesheet" href="styles.css?v=1.1.0">
 </head>
 <body>
   <header class="hero">
@@ -26,6 +26,20 @@
     <div class="toolbar">
       <div class="controls">
         <input class="search" id="searchInput" type="search" placeholder="Buscar por nome, coleção ou descrição…" aria-label="Buscar presentes">
+        <select class="select-control" id="priceFilter" aria-label="Filtrar por faixa de valor">
+          <option value="all">Todos os valores</option>
+          <option value="under100">Até R$ 100</option>
+          <option value="100to250">R$ 100 a R$ 250</option>
+          <option value="250to500">R$ 250 a R$ 500</option>
+          <option value="over500">Acima de R$ 500</option>
+          <option value="unknown">Valor a consultar</option>
+        </select>
+        <select class="select-control" id="sortOrder" aria-label="Ordenar presentes">
+          <option value="default">Ordem original</option>
+          <option value="priceAsc">Menor valor ao maior</option>
+          <option value="priceDesc">Maior valor ao menor</option>
+          <option value="nameAsc">Nome de A a Z</option>
+        </select>
         <div class="filters" aria-label="Filtrar presentes">
           <button class="filter active" data-filter="all">Todos</button>
           <button class="filter" data-filter="moda">Guarda-Roupa</button>
@@ -37,11 +51,11 @@
     </div>
 
     <section class="grid" id="giftGrid" aria-live="polite"></section>
-    <div class="empty" id="emptyState">Nenhum desejo encontrado com esse filtro.</div>
+    <div class="empty" id="emptyState">Nenhum desejo encontrado com esses filtros.</div>
   </main>
 
   <footer>Feito com carinho para o Jardim de Desejos de Michèlé Joohann · valores e disponibilidade podem mudar sem aviso prévio.</footer>
-  <script src="products.js?v=1.0.0"></script>
-  <script src="app.js?v=1.0.0"></script>
+  <script src="products.js?v=1.1.0"></script>
+  <script src="app.js?v=1.1.0"></script>
 </body>
 </html>
