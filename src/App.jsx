@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { signInAnonymously } from 'firebase/auth';
+import { onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { auth, db } from './firebase/config.js';
 import ProductCard from './components/ProductCard.jsx';
+import AdminMigrationPanel from './components/AdminMigrationPanel.jsx';
 import { legacyProducts } from './data/legacyProducts.js';
 
 export default function App() {
   const [firestoreProducts, setFirestoreProducts] = useState([]);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
@@ -14,13 +16,18 @@ export default function App() {
   const [sort, setSort] = useState('default');
 
   useEffect(() => {
-    signInAnonymously(auth).catch(() => setError('Não foi possível iniciar a sessão do visitante.'));
+    const unsubscribeAuth = onAuthStateChanged(auth, currentUser => {
+      setUser(currentUser);
+      if (!currentUser) {
+        signInAnonymously(auth).catch(() => setError('Não foi possível iniciar a sessão do visitante.'));
+      }
+    });
 
     const productsQuery = query(collection(db, 'products'), orderBy('name'));
-    const unsubscribe = onSnapshot(
+    const unsubscribeProducts = onSnapshot(
       productsQuery,
       snapshot => {
-        setFirestoreProducts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setFirestoreProducts(snapshot.docs.map(document => ({ id: document.id, ...document.data() })));
         setLoading(false);
       },
       () => {
@@ -29,7 +36,10 @@ export default function App() {
       }
     );
 
-    return unsubscribe;
+    return () => {
+      unsubscribeAuth();
+      unsubscribeProducts();
+    };
   }, []);
 
   const sourceProducts = firestoreProducts.length ? firestoreProducts : legacyProducts;
@@ -64,6 +74,8 @@ export default function App() {
       </header>
 
       <main className="content">
+        <AdminMigrationPanel user={user} firestoreCount={firestoreProducts.length} />
+
         <section className="catalog-toolbar" aria-label="Controles do catálogo">
           <input
             type="search"
@@ -87,7 +99,7 @@ export default function App() {
         </section>
 
         {loading && <p className="notice">Conectando ao Jardim…</p>}
-        {usingFallback && <p className="notice warning">O banco ainda está vazio. Exibindo os produtos já cadastrados enquanto preparamos a migração.</p>}
+        {usingFallback && <p className="notice warning">O banco ainda está vazio. Entre como administradora acima e execute a importação inicial.</p>}
         {error && <p className="notice error" role="alert">{error}</p>}
 
         <section className="product-grid" aria-live="polite">
