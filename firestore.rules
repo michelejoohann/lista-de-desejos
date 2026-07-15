@@ -2,12 +2,14 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+
     function signedIn() {
       return request.auth != null;
     }
 
     function isAdmin() {
-      return signedIn() && request.auth.uid == '7G4v3hEMtaVzI8MUDsXjVCNXGJz1';
+      return signedIn()
+        && request.auth.uid == '7G4v3hEMtaVzI8MUDsXjVCNXGJz1';
     }
 
     match /products/{productId} {
@@ -17,17 +19,50 @@ service cloud.firestore {
 
     match /publicReservations/{productId} {
       allow read: if true;
+
       allow create: if signedIn()
-        && request.resource.data.keys().hasOnly(['status', 'reservedAt', 'visitorUid'])
+        && !exists(/databases/$(database)/documents/publicReservations/$(productId))
+        && request.resource.data.keys().hasOnly([
+          'productId',
+          'status',
+          'visitorUid',
+          'reservedAt'
+        ])
+        && request.resource.data.productId == productId
         && request.resource.data.status == 'reserved'
         && request.resource.data.visitorUid == request.auth.uid;
+
       allow update, delete: if isAdmin();
     }
 
     match /privateReservations/{productId} {
       allow create: if signedIn()
+        && !exists(/databases/$(database)/documents/privateReservations/$(productId))
+        && request.resource.data.keys().hasOnly([
+          'productId',
+          'visitorUid',
+          'name',
+          'email',
+          'message',
+          'createdAt'
+        ])
+        && request.resource.data.productId == productId
         && request.resource.data.visitorUid == request.auth.uid;
+
       allow read, update, delete: if isAdmin();
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+
+      allow create: if signedIn()
+        && request.resource.data.authorUid == request.auth.uid;
+
+      allow update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
