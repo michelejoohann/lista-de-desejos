@@ -1,75 +1,14 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#314738">
-  <meta name="description" content="O Jardim de Desejos de Michèlé Joohann — lista pública de presentes escolhidos com carinho.">
-  <meta property="og:title" content="O Jardim de Desejos de Michèlé Joohann">
-  <meta property="og:description" content="Presentes, sonhos e pequenas histórias escolhidas com carinho.">
-  <meta property="og:type" content="website">
-  <title>O Jardim de Desejos de Michèlé Joohann</title>
-  <link rel="stylesheet" href="styles.css?v=1.1.1">
-</head>
-<body>
-  <header class="hero">
-    <div class="wrap">
-      <div class="eyebrow">Lista pública de presentes · versão 1.1</div>
-      <h1>O Jardim de Desejos<br>de Michèlé Joohann</h1>
-      <p>Cada presente desta coleção representa um sonho, um projeto, uma memória futura ou uma etapa da minha jornada.</p>
-      <div class="quote">“Se você desejar me presentear, encontrará aqui itens escolhidos com carinho e que realmente farão parte da minha vida.”</div>
-      <div class="stats">
-        <span class="stat"><span id="totalCount">0</span> desejos</span>
-        <span class="stat"><span id="visibleCount">0</span> exibidos</span>
-        <span class="stat"><span id="realizedCount">0</span> realizados</span>
-      </div>
-      <div class="progress" aria-label="Progresso dos desejos realizados"><span id="progressBar"></span></div>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <div class="toolbar">
-      <div class="controls">
-        <input class="search" id="searchInput" type="search" placeholder="Buscar por nome, coleção ou descrição…" aria-label="Buscar presentes">
-        <select class="select-control" id="priceFilter" aria-label="Filtrar por faixa de valor">
-          <option value="all">Todos os valores</option>
-          <option value="under100">Até R$ 100</option>
-          <option value="100to250">R$ 100 a R$ 250</option>
-          <option value="250to500">R$ 250 a R$ 500</option>
-          <option value="over500">Acima de R$ 500</option>
-          <option value="unknown">Valor a consultar</option>
-        </select>
-        <select class="select-control" id="sortOrder" aria-label="Ordenar presentes">
-          <option value="default">Ordem original</option>
-          <option value="priceAsc">Menor valor ao maior</option>
-          <option value="priceDesc">Maior valor ao menor</option>
-          <option value="nameAsc">Nome de A a Z</option>
-        </select>
-        <div class="filters" aria-label="Filtrar presentes">
-          <button class="filter active" data-filter="all">Todos</button>
-          <button class="filter" data-filter="moda">Guarda-Roupa</button>
-          <button class="filter" data-filter="joias">Tesouros</button>
-          <button class="filter" data-filter="casa">Lar</button>
-          <button class="filter" data-filter="favorites">Favoritos</button>
-          <button class="filter" data-filter="realized">Realizados</button>
-        </div>
-      </div>
-      <button class="share" id="shareBtn">Compartilhar esta lista</button>
-    </div>
-
-    <p class="local-note">Favoritos, reservas e itens realizados ficam salvos somente neste navegador.</p>
-    <section class="grid" id="giftGrid" aria-live="polite"></section>
-    <div class="empty" id="emptyState">Nenhum desejo encontrado com esses filtros.</div>
-  </main>
-
-  <dialog id="imageModal" class="image-modal">
-    <button id="closeModal" class="modal-close" aria-label="Fechar">×</button>
-    <img id="modalImage" alt="">
-    <p id="modalCaption"></p>
-  </dialog>
-
-  <footer>Feito com carinho para o Jardim de Desejos de Michèlé Joohann · valores e disponibilidade podem mudar sem aviso prévio.</footer>
-  <script src="products.js?v=1.1.1"></script>
-  <script src="app.js?v=1.1.1"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#314738" />
+    <meta name="description" content="O Jardim de Desejos de Michèlé Joohann" />
+    <title>O Jardim de Desejos de Michèlé Joohann</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
